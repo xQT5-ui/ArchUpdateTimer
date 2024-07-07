@@ -1,0 +1,14 @@
+// terminalCmd := exec.Command("flatpak", "run", "com.raggesilver.BlackBox") // работает но запихнуть команду после не вышло даже со всеми возможными правами по Flatseal
+// terminalCmd := exec.Command("sh", "-c", cmd) // работает
+// terminalCmd := exec.Command("sudo", "-S", "--", "kgx", "-e", cmd) // работает с предложением ниже но yay не работает под судо
+// terminalCmd.Stdin = strings.NewReader("89230\n")
+terminalCmd := exec.Command("kgx", "-e", cmd) // работает если сразу запихнуть пароль через echo
+
+stdoutStderr, err := terminalCmd.CombinedOutput() // от kgx не получается взять stdout, но от sh без пробелм
+
+// terminalCmd = exec.Command("kgx", "-e", "echo", string(stdoutStderr)) // работает для связки с sh
+// terminalCmd.Stdin = strings.NewReader(string(stdoutStderr)) // НЕ работает для kgx
+// 	err = terminalCmd.Run()
+// 	if err != nil {
+// 		log.Fatal("Error creating stdout of second pipe: ", err)
+// 	}
