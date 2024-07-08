@@ -1,13 +1,27 @@
 package main
 
 import (
-	"app.go/lib"
+	"fmt"
+	"log"
+
+	"app.go/app/config"
+	"app.go/app/lib"
 )
 
 func main() {
+	config, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("ошибка загрузки конфигурации: %v\n", err)
+	}
+
 	nowDayOfWeek := lib.GetDayOfWeek()
 
 	if nowDayOfWeek == 0 { // 0 = Sunday
-		lib.RunCmdInTerminal("echo 89230 | sudo -S sh -c 'echo Start updating system...\n' && yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y")
+		// echo pswrd | sudo -S sh -c 'echo Start updating system...\n' && yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y
+		if config.Command.CmdShellFlag {
+			lib.RunCmdInTerminal("echo " + fmt.Sprintf("%d", config.Pswrd) + " | " + config.Command.CmdShellExec + " && " + config.Command.Cmnd)
+		} else {
+			lib.RunCmdInTerminal(config.Command.Cmnd)
+		}
 	}
 }

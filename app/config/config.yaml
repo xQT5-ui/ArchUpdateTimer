@@ -1,0 +1,5 @@
+command:
+  exec_value: "yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y && sleep 3 && pkill kgx"
+  cmd_shell_flag: true
+  cmd_shell_exec: "sudo -S sh -c 'echo Start updating system...\n'"
+password: 89230
