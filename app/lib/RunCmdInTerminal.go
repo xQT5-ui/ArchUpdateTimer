@@ -12,7 +12,7 @@ func RunCmdInTerminal(cmd string) {
 	// Получаем stdout
 	stdoutStderr, err := terminalCmd.CombinedOutput()
 	if err != nil {
-		log.Fatal("Error creating stdout/error pipe: ", err)
+		log.Fatalf("Error creating stdout/error pipe: %v", err)
 	}
 	log.Printf("Readed: %s\n", stdoutStderr)
 }

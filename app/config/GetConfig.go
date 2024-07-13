@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -14,20 +14,23 @@ type Config struct {
 		CmdShellFlag bool   `yaml:"cmd_shell_flag"`
 		CmdShellExec string `yaml:"cmd_shell_exec"`
 	} `yaml:"command"`
-	Pswrd int `yaml:"password"`
+	Pswrd string `yaml:"password"`
+	Days  []int  `yaml:"days"`
+	Hash  string `yaml:"hash"`
 }
 
-func LoadConfig() (Config, error) {
+func LoadConfig() Config {
 	// Create new struct
 	var config Config
 
 	// Get executable path
 	execPath, err := os.Executable()
 	if err != nil {
-		return config, fmt.Errorf("ошибка получения пути исполняемого файла: %w", err)
+		log.Fatalf("ошибка получения пути исполняемого файла: %v", err)
+		return config
 	}
 
-	// Get config path
+	// Get executable dir
 	execDir := filepath.Dir(execPath)
 
 	// Set config path
@@ -36,26 +39,30 @@ func LoadConfig() (Config, error) {
 	// Check if file exists
 	_, err = os.Stat(filename)
 	if err != nil {
-		return config, fmt.Errorf("файл конфигурации '%s' не существует: %w", filename, err)
+		log.Fatalf("файл конфигурации '%s' не существует: %v", filename, err)
+		return config
 	}
 
 	// Check if file is readable
 	_, err = os.Open(filename)
 	if err != nil {
-		return config, fmt.Errorf("файл конфигурации '%s' недоступен для чтения: %w", filename, err)
+		log.Fatalf("файл конфигурации '%s' недоступен для чтения: %v", filename, err)
+		return config
 	}
 
 	// Read config file
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		return config, fmt.Errorf("ошибка чтения файла '%s': %w", filename, err)
+		log.Fatalf("ошибка чтения файла '%s': %v", filename, err)
+		return config
 	}
 
 	// Parsing YAML to struct
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return config, fmt.Errorf("ошибка парсинга файла '%s': %w", filename, err)
+		log.Fatalf("ошибка парсинга файла '%s': %v", filename, err)
+		return config
 	}
 
-	return config, nil
+	return config
 }

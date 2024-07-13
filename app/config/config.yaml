@@ -2,4 +2,10 @@ command:
   exec_value: "yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y && sleep 3 && pkill kgx"
   cmd_shell_flag: true
   cmd_shell_exec: "sudo -S sh -c 'echo Start updating system...\n'"
-password: 89230
+password: "ODkyMzA="
+hash: "bda7120f3697605605c83597f4b17a57246d2d41d39ab7ae0e343a252b6f8558"
+# days:
+# - 0 = sunday
+# - 3 = wednesday
+# - 5 = friday
+days: [0, 3, 5]
