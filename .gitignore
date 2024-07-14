@@ -1,2 +1,2 @@
 # исключил папку config из-за её персонализации
-/app/config/
+/app/config/config.yaml
