@@ -5,14 +5,14 @@ import (
 	"os/exec"
 )
 
-func RunCmdInTerminal(cmd string) {
-	// Запуск внешней программы "terminal"
-	terminalCmd := exec.Command("kgx", "-e", cmd)
+func RunCmdInTerminal(emulation []string, cmd string) {
+	// Execute "terminal" with command
+	terminalCmd := exec.Command(emulation[0], emulation[1], cmd)
 
-	// Получаем stdout
+	// Get stdout
 	stdoutStderr, err := terminalCmd.CombinedOutput()
 	if err != nil {
-		log.Fatalf("Error creating stdout/error pipe: %v", err)
+		log.Fatalf("ошибка создания stdout/error pipe: %v", err)
 	}
-	log.Printf("Readed: %s\n", stdoutStderr)
+	log.Printf("Прочитано: %s\n", stdoutStderr)
 }

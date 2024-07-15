@@ -10,12 +10,17 @@ import (
 
 type Config struct {
 	Command struct {
-		Cmnd         string `yaml:"exec_value"`
-		CmdShellFlag bool   `yaml:"cmd_shell_flag"`
-		CmdShellExec string `yaml:"cmd_shell_exec"`
+		Cmnd         string   `yaml:"exec_value"`
+		CmdShellFlag bool     `yaml:"cmd_shell_flag"`
+		CmdShellExec string   `yaml:"cmd_shell_exec"`
+		Emulation    []string `yaml:"emulation_terminal"`
+		EmulationFlg bool     `yaml:"emulation_flg"`
 	} `yaml:"command"`
+	Days struct {
+		Range    []int `yaml:"range"`
+		RangeFlg bool  `yaml:"range_flg"`
+	} `yaml:"days"`
 	Pswrd string `yaml:"password"`
-	Days  []int  `yaml:"days"`
 	Hash  string `yaml:"hash"`
 }
 

@@ -18,12 +18,21 @@ func main() {
 	nowDayOfWeek := lib.GetDayOfWeek()
 
 	// Execute command
-	// 0 = Sunday
-	if nowDayOfWeek == time.Weekday(config.Days[0]) || nowDayOfWeek == time.Weekday(config.Days[1]) || nowDayOfWeek == time.Weekday(config.Days[2]) {
+	if config.Command.EmulationFlg {
+		// 0 = Sunday
+		if nowDayOfWeek == time.Weekday(config.Days.Range[0]) || nowDayOfWeek == time.Weekday(config.Days.Range[1]) || nowDayOfWeek == time.Weekday(config.Days.Range[2]) {
+			if config.Command.CmdShellFlag {
+				lib.RunCmdInTerminal(config.Command.Emulation, "echo "+decryptPassword+" | "+config.Command.CmdShellExec+" && "+config.Command.Cmnd)
+			} else {
+				lib.RunCmdInTerminal(config.Command.Emulation, config.Command.Cmnd)
+			}
+		}
+	} else {
 		if config.Command.CmdShellFlag {
-			lib.RunCmdInTerminal("echo " + decryptPassword + " | " + config.Command.CmdShellExec + " && " + config.Command.Cmnd)
+			lib.RunCmdInTerminal(config.Command.Emulation, "echo "+decryptPassword+" | "+config.Command.CmdShellExec+" && "+config.Command.Cmnd)
 		} else {
-			lib.RunCmdInTerminal(config.Command.Cmnd)
+			lib.RunCmdInTerminal(config.Command.Emulation, config.Command.Cmnd)
 		}
 	}
+
 }
