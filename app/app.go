@@ -18,8 +18,7 @@ func main() {
 	nowDayOfWeek := lib.GetDayOfWeek()
 
 	// Execute command
-	if config.Command.EmulationFlg {
-		// 0 = Sunday
+	if config.Days.RangeFlg {
 		if nowDayOfWeek == time.Weekday(config.Days.Range[0]) || nowDayOfWeek == time.Weekday(config.Days.Range[1]) || nowDayOfWeek == time.Weekday(config.Days.Range[2]) {
 			if config.Command.CmdShellFlag {
 				lib.RunCmdInTerminal(config.Command.Emulation, "echo "+decryptPassword+" | "+config.Command.CmdShellExec+" && "+config.Command.Cmnd)
@@ -34,5 +33,4 @@ func main() {
 			lib.RunCmdInTerminal(config.Command.Emulation, config.Command.Cmnd)
 		}
 	}
-
 }

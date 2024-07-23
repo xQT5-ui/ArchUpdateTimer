@@ -14,7 +14,6 @@ type Config struct {
 		CmdShellFlag bool     `yaml:"cmd_shell_flag"`
 		CmdShellExec string   `yaml:"cmd_shell_exec"`
 		Emulation    []string `yaml:"emulation_terminal"`
-		EmulationFlg bool     `yaml:"emulation_flg"`
 	} `yaml:"command"`
 	Days struct {
 		Range    []int `yaml:"range"`
