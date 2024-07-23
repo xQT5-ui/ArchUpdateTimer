@@ -1,13 +1,36 @@
 package main
 
 import (
-	"app.go/lib"
+	"time"
+
+	"app.go/app/config"
+	"app.go/app/lib"
 )
 
 func main() {
+	// Load and read config
+	config := config.LoadConfig()
+
+	// Get decrypt password
+	decryptPassword := lib.GetDecryptPassword(config.Pswrd, config.Hash)
+
+	// Get today's day of week
 	nowDayOfWeek := lib.GetDayOfWeek()
 
-	if nowDayOfWeek == 0 { // 0 = Sunday
-		lib.RunCmdInTerminal("echo 89230 | sudo -S sh -c 'echo Start updating system...\n' && yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y")
+	// Execute command
+	if config.Days.RangeFlg {
+		if nowDayOfWeek == time.Weekday(config.Days.Range[0]) || nowDayOfWeek == time.Weekday(config.Days.Range[1]) || nowDayOfWeek == time.Weekday(config.Days.Range[2]) {
+			if config.Command.CmdShellFlag {
+				lib.RunCmdInTerminal(config.Command.Emulation, "echo "+decryptPassword+" | "+config.Command.CmdShellExec+" && "+config.Command.Cmnd)
+			} else {
+				lib.RunCmdInTerminal(config.Command.Emulation, config.Command.Cmnd)
+			}
+		}
+	} else {
+		if config.Command.CmdShellFlag {
+			lib.RunCmdInTerminal(config.Command.Emulation, "echo "+decryptPassword+" | "+config.Command.CmdShellExec+" && "+config.Command.Cmnd)
+		} else {
+			lib.RunCmdInTerminal(config.Command.Emulation, config.Command.Cmnd)
+		}
 	}
 }
