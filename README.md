@@ -1,7 +1,7 @@
 # OVERWRITE
 
 This is a small project for automatization execute some shell command through a emulatior of terminal.
-I created it for auto-update system for *Arch Linux* with using `yay` and `kgx`. But I suggest that you can use it for other actions because of the programm is using config file for managing programm.
+I created it for autoupdating system for *Arch Linux* with using `yay` and `kgx`. But I suggest that you can use it for other actions because of the programm is using config file for managing programm.
 
 ## SETTINGS AND INSTALLS
 
@@ -41,5 +41,5 @@ days:
 ### For uninstalling programm run uninstall.sh in current programm folder
 
 ```bash
-./unistall.sh
+./uninstall.sh
 ```
