@@ -6,10 +6,16 @@ PROJECT_DIR="$(pwd)"
 BUILD_DIR="$PROJECT_DIR/build"
 AUTOSTART_DIR="$HOME/.config/autostart"
 DESKTOP_FILE="$AUTOSTART_DIR/$PROJECT_NAME.desktop"
+CONFIG_FILE="$PROJECT_DIR/app/config/config.yaml"
 
 # Функция для сборки проекта
 build_project() {
     echo "Сборка проекта..."
+    if [! -f "$CONFIG_FILE" ]; then
+        echo "Файл конфигурации не найден. Пожалуйста, создайте его."
+        exit 1
+    fi
+
     cd "$PROJECT_DIR/app"
     go build -o "$BUILD_DIR/$PROJECT_NAME"
     if [ $? -eq 0 ]; then
