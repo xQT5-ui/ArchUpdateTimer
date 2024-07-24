@@ -11,9 +11,11 @@ CONFIG_FILE="$PROJECT_DIR/app/config/config.yaml"
 # Функция для сборки проекта
 build_project() {
     echo "Сборка проекта..."
-    if [! -f "$CONFIG_FILE" ]; then
+    if [ ! -f "$CONFIG_FILE" ]; then
         echo "Файл конфигурации не найден. Пожалуйста, создайте его."
         exit 1
+    else
+        echo "Файл конфигурации найден. Продолжение сборки проекта..."
     fi
 
     cd "$PROJECT_DIR/app"
