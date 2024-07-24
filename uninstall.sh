@@ -19,21 +19,22 @@ remove_autostart_file() {
     fi
 }
 
-# Функция для удаления собранного исполняемого файла
-remove_executable_file() {
-    if [ -f "$EXECUTABLE_FILE" ]; then
-        echo "Удаление собранного исполняемого файла..."
-        rm "$EXECUTABLE_FILE"
-        echo "Собранный исполняемый файл удален."
+# Функция для удаления собранного исполняемого файла и конфига
+remove_executable_folder() {
+    if [ -d "$BUILD_DIR" ]; then
+        echo "Удаление папки сборки..."
+        # удаление папки сборки
+        rm -rf "$BUILD_DIR"
+        echo "Папка сборки удалена."
     else
-        echo "Собранный исполняемый файл не найден."
+        echo "Папка сборки не найдена."
     fi
 }
 
 # Основная логика скрипта
 main() {
     remove_autostart_file
-    remove_executable_file
+    remove_executable_folder
 
     echo "Удаление завершено."
 }

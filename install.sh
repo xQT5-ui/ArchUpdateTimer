@@ -24,6 +24,10 @@ build_project() {
         echo "Проект успешно собран."
         chmod +x "$BUILD_DIR/$PROJECT_NAME"
         echo "Права на выполнение добавлены."
+        #скопировать файл конфигурации в директорию сборки
+        mkdir -p "$BUILD_DIR/config"
+        cp "$CONFIG_FILE" "$BUILD_DIR/config"
+        echo "Файл конфигурации скопирован в директорию сборки."
     else
         echo "Ошибка при сборке проекта."
         exit 1
