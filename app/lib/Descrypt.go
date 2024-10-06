@@ -4,8 +4,9 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"fmt"
 
-	"log"
+	log "app.go/app/lib/logger"
 )
 
 func encrypt(password string) string {
@@ -16,23 +17,25 @@ func encrypt(password string) string {
 	return hex.EncodeToString(hash[:])
 }
 
-func decrypt(hash string) string {
+func decrypt(hash string, lg *log.Logger) string {
 	// Convert base64 string to bytes
 	bytes, err := base64.StdEncoding.DecodeString(hash)
 	if err != nil {
-		log.Fatalf("ошибка декодирования пароля: %v", err)
+		lg.Error(err, "Ошибка декодирования пароля:")
 		return ""
 	}
+
 	return string(bytes)
 }
 
-func GetDecryptPassword(password, hash string) string {
+func GetDecryptPassword(password, hash string, lg *log.Logger) string {
 	hash_config := encrypt(password)
 
 	if hash_config == hash {
-		return decrypt(password)
+		lg.Info("Пароль совпадает")
+		return decrypt(password, lg)
 	} else {
-		log.Fatal("неверное совпадение пароля")
+		lg.Error(fmt.Errorf("неверное совпадение пароля"), "Ошибка проверки пароля")
 		return ""
 	}
 }
