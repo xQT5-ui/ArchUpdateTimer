@@ -1,18 +1,23 @@
 package lib
 
 import (
-	"log"
+	"fmt"
 	"os/exec"
+
+	conf "app.go/app/config"
+	log "app.go/app/lib/logger"
 )
 
-func RunCmdInTerminal(emulation []string, cmd string) {
+func RunCmdInTerminal(emulation []string, cmd string, config *conf.Config, lg *log.Logger) {
 	// Execute "terminal" with command
 	terminalCmd := exec.Command(emulation[0], emulation[1], cmd)
 
 	// Get stdout
 	stdoutStderr, err := terminalCmd.CombinedOutput()
-	if err != nil {
-		log.Fatalf("ошибка создания stdout/error pipe: %v", err)
+	if err != nil && !config.Command.CmdShellFlag {
+		lg.Error(err, "Ошибка создания stdout/error pipe:")
+		return
 	}
-	log.Printf("Прочитано: %s\n", stdoutStderr)
+
+	lg.Info(fmt.Sprintf("Прочитано: %s", string(stdoutStderr)))
 }

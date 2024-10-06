@@ -1,11 +1,13 @@
 package config
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v3"
+
+	lg "app.go/app/lib/logger"
 )
 
 type Config struct {
@@ -23,14 +25,14 @@ type Config struct {
 	Hash  string `yaml:"hash"`
 }
 
-func LoadConfig() Config {
+func LoadConfig(lg *lg.Logger) Config {
 	// Create new struct
 	var config Config
 
 	// Get executable path
 	execPath, err := os.Executable()
 	if err != nil {
-		log.Fatalf("ошибка получения пути исполняемого файла: %v", err)
+		lg.Error(err, "Ошибка получения пути исполняемого файла:")
 		return config
 	}
 
@@ -43,30 +45,32 @@ func LoadConfig() Config {
 	// Check if file exists
 	_, err = os.Stat(filename)
 	if err != nil {
-		log.Fatalf("файл конфигурации '%s' не существует: %v", filename, err)
+		lg.Error(err, fmt.Sprintf("Файл конфигурации '%s' не существует:", filename))
 		return config
 	}
 
 	// Check if file is readable
 	_, err = os.Open(filename)
 	if err != nil {
-		log.Fatalf("файл конфигурации '%s' недоступен для чтения: %v", filename, err)
+		lg.Error(err, fmt.Sprintf("Файл конфигурации '%s' недоступен для чтения:", filename))
 		return config
 	}
 
 	// Read config file
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		log.Fatalf("ошибка чтения файла '%s': %v", filename, err)
+		lg.Error(err, fmt.Sprintf("Ошибка чтения файла '%s':", filename))
 		return config
 	}
 
 	// Parsing YAML to struct
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		log.Fatalf("ошибка парсинга файла '%s': %v", filename, err)
+		lg.Error(err, fmt.Sprintf("ошибка парсинга файла '%s':", filename))
 		return config
 	}
+
+	lg.Info(fmt.Sprintf("Файл конфигурации '%s' успешно загружен", filename))
 
 	return config
 }

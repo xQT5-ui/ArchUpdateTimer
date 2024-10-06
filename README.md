@@ -13,10 +13,10 @@ Before to build a programm you need:
 
 ```yaml
 command:
-  exec_value: "yay -Syu --noconfirm && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y && sleep 3 && pkill kgx"
+  exec_value: "yay -Syu --noconfirm && echo \"\nJobs for flatpak...\n\" && sudo flatpak repair && flatpak update -y && sudo flatpak remove --unused -y && echo \"\nJobs for flatpak...\n\" && sudo fwupdmgr update && sleep 3 && pkill kgx"
   # run command with auto-enter password
   cmd_shell_flag: true
-  cmd_shell_exec: "sudo -S sh -c 'echo Start updating system...\n'"
+  cmd_shell_exec: "sudo -S sh -c 'echo \"\nStart updating system...\"'"
   # kgx - emulator of terminal; -e - argument for execute command
   emulation_terminal: ["kgx", "-e"]
 # your sudo password in base64
